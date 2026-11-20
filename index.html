@@ -69,10 +69,33 @@
 </head>
 <body class="font-sans antialiased selection:bg-gold-500 selection:text-black">
 
+    <!-- ORDER MODAL FOR EASY DM -->
+    <div id="order-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div class="glass-card max-w-md w-full rounded-2xl p-6 space-y-4 border border-gold-500/40">
+            <div class="flex items-center justify-between">
+                <h3 class="text-base font-extrabold text-white">Order Details Copied!</h3>
+                <button onclick="closeOrderModal()" class="text-gray-400 hover:text-white text-lg leading-none cursor-pointer">&times;</button>
+            </div>
+            <p class="text-xs text-gray-400">
+                Instagram (@the.pratyush.singh) khul raha hai. Agar message box khali aaye, toh neeche diya gaya text paste karke send kar dein:
+            </p>
+            <textarea id="order-preview-text" rows="6" readonly class="w-full bg-neutral-950/90 border border-white/15 rounded-xl p-3 text-xs text-gray-200 focus:outline-none"></textarea>
+            <div class="flex items-center justify-end gap-3 pt-1">
+                <button onclick="copyOrderTextAgain()" class="glass-pill text-xs font-semibold text-gold-400 px-4 py-2 rounded-xl cursor-pointer">
+                    Copy Text
+                </button>
+                <a id="direct-ig-link" href="https://www.instagram.com/the.pratyush.singh/" target="_blank" rel="noopener noreferrer" class="gold-btn text-xs font-bold px-5 py-2 rounded-xl shadow">
+                    Open @the.pratyush.singh &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- INSTAGRAM ORDER ROUTING -->
     <script>
         const ORDER_CONFIG = {
-            instagramHandle: 'the.pratyush.singh'
+            instagramHandle: 'the.pratyush.singh',
+            profileUrl: 'https://www.instagram.com/the.pratyush.singh/'
         };
 
         function handleBuyNow(productName, price, selectId) {
@@ -83,13 +106,40 @@
                 navigator.clipboard.writeText(message).catch(() => {});
             }
 
-            const igUrl = `https://ig.me/m/${ORDER_CONFIG.instagramHandle}?text=${encodeURIComponent(message)}`;
-            window.open(igUrl, '_blank', 'noopener,noreferrer');
+            const previewBox = document.getElementById('order-preview-text');
+            const igLink = document.getElementById('direct-ig-link');
+            const modal = document.getElementById('order-modal');
+
+            if (previewBox) previewBox.value = message;
+            if (igLink) igLink.href = ORDER_CONFIG.profileUrl;
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            window.open(ORDER_CONFIG.profileUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('order-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function copyOrderTextAgain() {
+            const previewBox = document.getElementById('order-preview-text');
+            if (!previewBox) return;
+            previewBox.select();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(previewBox.value).catch(() => {});
+            }
         }
     </script>
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-nav px-6 md:px-14 py-3.5 flex items-center justify-between">
+    <nav class="fixed top-0 left-0 right-0 z-40 glass-nav px-6 md:px-14 py-3.5 flex items-center justify-between">
         <a href="#" class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl glass-card flex items-center justify-center border border-gold-500/40">
                 <svg class="w-6 h-6 text-gold-400" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +161,7 @@
             <a href="#contact" class="hover:text-gold-400 transition">Contact</a>
         </div>
 
-        <a href="https://ig.me/m/the.pratyush.singh" target="_blank" rel="noopener noreferrer" class="gold-btn font-bold text-xs px-4 py-2 rounded-lg shadow-lg transition">
+        <a href="https://www.instagram.com/the.pratyush.singh/" target="_blank" rel="noopener noreferrer" class="gold-btn font-bold text-xs px-4 py-2 rounded-lg shadow-lg transition">
             Order on DM &rarr;
         </a>
     </nav>
@@ -176,7 +226,7 @@
         <div class="space-y-2 mb-10">
             <div class="text-[11px] tracking-[0.2em] text-gold-400 uppercase font-bold">CURATED STREETWEAR CATALOG</div>
             <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">The Latest Drop</h2>
-            <p class="text-gray-400 text-xs md:text-sm">Select your size and tap 'Buy Now' to instantly place your order via Instagram DM (@the.pratyush.singh).</p>
+            <p class="text-gray-400 text-xs md:text-sm">Select your size and tap 'Buy Now' to order directly from @the.pratyush.singh on Instagram.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
@@ -184,7 +234,7 @@
             <!-- CARD 1: MEN GRAPHIC TEE -->
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                 <div>
-                    <div class="relative bg-neutral-900 aspect-[4/4] overflow-hidden">
+                    <div class="relative bg-neutral-900 h-64 overflow-hidden">
                         <img src="tshirt1.jpeg" alt="Men Round Neck Cotton Blend Black T-Shirt" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 glass-pill text-gold-400 text-[11px] font-semibold px-3 py-1 rounded-full">Men Drop</span>
                     </div>
@@ -219,7 +269,7 @@
             <!-- CARD 2: MEN RINGER TEE -->
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                 <div>
-                    <div class="relative bg-neutral-900 aspect-[4/4] overflow-hidden">
+                    <div class="relative bg-neutral-900 h-64 overflow-hidden">
                         <img src="tshirt2.jpeg" alt="Men Round Neck Pure Cotton Beige Brown T-Shirt" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 glass-pill text-gold-400 text-[11px] font-semibold px-3 py-1 rounded-full">Men Drop</span>
                     </div>
@@ -254,7 +304,7 @@
             <!-- CARD 3: WOMEN COLOURBLOCK POLO -->
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                 <div>
-                    <div class="relative bg-neutral-900 aspect-[4/4] overflow-hidden">
+                    <div class="relative bg-neutral-900 h-64 overflow-hidden">
                         <img src="tshirt3.jpeg" alt="Women Colourblock Solid Polo Neck Brown T-Shirt" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 glass-pill text-gold-400 text-[11px] font-semibold px-3 py-1 rounded-full">Women Drop</span>
                     </div>
@@ -289,7 +339,7 @@
             <!-- CARD 4: WOMEN SLAY BLACK TEE -->
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                 <div>
-                    <div class="relative bg-neutral-900 aspect-[4/4] overflow-hidden">
+                    <div class="relative bg-neutral-900 h-64 overflow-hidden">
                         <img src="tshirt4.jpeg" alt="Women Round Neck Cotton Blend Black T-Shirt (Slay)" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 glass-pill text-gold-400 text-[11px] font-semibold px-3 py-1 rounded-full">Women Drop</span>
                     </div>
@@ -324,7 +374,7 @@
             <!-- CARD 5: WOMEN STANCE TEE -->
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                 <div>
-                    <div class="relative bg-neutral-900 aspect-[4/4] overflow-hidden">
+                    <div class="relative bg-neutral-900 h-64 overflow-hidden">
                         <img src="tshirt5.jpeg" alt="Women Typography Round Neck Pure Cotton T-Shirt (Stance)" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 glass-pill text-gold-400 text-[11px] font-semibold px-3 py-1 rounded-full">Women Drop</span>
                     </div>
@@ -359,7 +409,7 @@
             <!-- CARD 6: MEN OAKLAND POLO -->
             <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300">
                 <div>
-                    <div class="relative bg-neutral-900 aspect-[4/4] overflow-hidden">
+                    <div class="relative bg-neutral-900 h-64 overflow-hidden">
                         <img src="tshirt2.jpeg" alt="Men Polo Neck Pure Cotton Beige T-Shirt (Oakland)" class="w-full h-full object-cover object-top hover:scale-105 transition duration-500">
                         <span class="absolute top-3 left-3 glass-pill text-gold-400 text-[11px] font-semibold px-3 py-1 rounded-full">Best Seller</span>
                     </div>
@@ -519,7 +569,7 @@
                 <p class="text-xs text-gray-400">Email: <span class="text-gray-200">claude09guna218@gmail.com</span></p>
                 <p class="text-xs text-gray-400">Instagram: <a href="https://www.instagram.com/the.pratyush.singh/" target="_blank" rel="noopener noreferrer" class="text-gold-400 underline">@the.pratyush.singh</a></p>
                 <div class="pt-1">
-                    <a href="https://ig.me/m/the.pratyush.singh" target="_blank" rel="noopener noreferrer" class="inline-block gold-btn font-bold text-xs px-5 py-2.5 rounded-xl shadow transition">
+                    <a href="https://www.instagram.com/the.pratyush.singh/" target="_blank" rel="noopener noreferrer" class="inline-block gold-btn font-bold text-xs px-5 py-2.5 rounded-xl shadow transition">
                         Chat on Instagram DM
                     </a>
                 </div>
