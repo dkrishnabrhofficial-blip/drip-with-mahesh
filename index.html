@@ -91,12 +91,18 @@
         </div>
     </div>
 
-    <!-- INSTAGRAM ORDER ROUTING -->
+    <!-- INSTAGRAM ORDER ROUTING & LOGO FALLBACK -->
     <script>
         const ORDER_CONFIG = {
             instagramHandle: 'the.pratyush.singh',
             profileUrl: 'https://www.instagram.com/the.pratyush.singh/'
         };
+
+        function handleLogoError(imgEl, fallbackId) {
+            imgEl.style.display = 'none';
+            const fb = document.getElementById(fallbackId);
+            if (fb) fb.classList.remove('hidden');
+        }
 
         function handleBuyNow(productName, price, selectId) {
             const selectedSize = document.getElementById(selectId).value;
@@ -142,7 +148,8 @@
     <nav class="fixed top-0 left-0 right-0 z-40 glass-nav px-6 md:px-14 py-3.5 flex items-center justify-between">
         <a href="#" class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-black border border-gold-500/40 overflow-hidden flex items-center justify-center">
-                <img src="logo_2.jpeg" alt="Drip with Mahesh Logo" class="w-full h-full object-contain">
+                <img src="logo_2.jpeg" alt="Drip with Mahesh Logo" onerror="handleLogoError(this, 'nav-logo-fb')" class="w-full h-full object-contain">
+                <span id="nav-logo-fb" class="hidden text-sm font-extrabold gold-text">M</span>
             </div>
             <div class="leading-tight">
                 <div class="text-sm md:text-base font-extrabold tracking-wider gold-text uppercase">DRIP WITH MAHESH</div>
@@ -203,7 +210,8 @@
             <div class="lg:col-span-5 flex justify-center">
                 <div class="glass-card w-full max-w-sm rounded-3xl p-8 text-center space-y-4">
                     <div class="w-28 h-28 mx-auto rounded-2xl bg-black border border-gold-500/35 overflow-hidden flex items-center justify-center shadow-inner">
-                        <img src="logo_2.jpeg" alt="Drip with Mahesh Official Logo" class="w-full h-full object-contain">
+                        <img src="logo_2.jpeg" alt="Drip with Mahesh Official Logo" onerror="handleLogoError(this, 'hero-logo-fb')" class="w-full h-full object-contain">
+                        <span id="hero-logo-fb" class="hidden text-4xl font-extrabold gold-text">M</span>
                     </div>
                     <div class="text-[11px] tracking-[0.22em] text-gray-400 uppercase font-semibold">OFFICIAL STOREFRONT</div>
                     <h2 class="text-2xl font-extrabold text-white tracking-tight">Drip with Mahesh</h2>
@@ -470,7 +478,8 @@
             <div class="space-y-3">
                 <div class="flex items-center space-x-2.5">
                     <div class="w-7 h-7 rounded-lg bg-black border border-gold-500/40 overflow-hidden flex items-center justify-center">
-                        <img src="logo_2.jpeg" alt="Drip with Mahesh Logo" class="w-full h-full object-contain">
+                        <img src="logo_2.jpeg" alt="Drip with Mahesh Logo" onerror="handleLogoError(this, 'footer-logo-fb')" class="w-full h-full object-contain">
+                        <span id="footer-logo-fb" class="hidden text-xs font-extrabold gold-text">M</span>
                     </div>
                     <span class="text-sm font-extrabold tracking-wider gold-text uppercase">DRIP WITH MAHESH</span>
                 </div>
